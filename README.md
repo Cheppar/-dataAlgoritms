@@ -10,7 +10,7 @@ Source `A common-Sense Guide to Data Structures and Algothms by Jay Wengrow`
 
 read notes in order
 
-`Why do Data Structures matter`
+## Chapter 1 : `Why do Data Structures matter`
 - Explain what data structures and Algorithms are?
 
   `data structure` - refers to how data is organized. 
@@ -74,9 +74,23 @@ index.
 `Searching` a set also turns out to be no different than searching an array - it
 takes up to N steps to search to see if a value exists within in a set.
 
-`Insertion` is where arrays and sets diverge.
+`Insertion` is where arrays and sets diverge. Reason: With an array, the computer can insert a value at its end in a single step. With a set, however, the computer first needs to determine that this value
+doesn’t already exist in this set - because that’s what sets do: They prevent
+duplicate data. So every insert first requires a search.
+
+Insertion into a set in a best case scenario will take N + 1 steps for N elements. This is because there are N steps of search to ensure that the value doesn’t already exist within the set, and then 1 step for the actual insertion.
+
+`Now, does this mean that you should avoid sets just because insertion is slower for sets than regular arrays? `
+
+`Ans` - Absolutely not. Sets are important when you need to ensure that there is no duplicate data. But when you don’t have such a need, an array may be preferable, since insertions for arrays are more efficient than insertions for sets. You must analyze the needs of your own application and decide which data structure is a better fit.
 
 - sets and their attributes
 - binary search
 
-`Why Algorithms matter`
+## Chapter 2 : `Why Algorithms matter`
+
+Choosing the right data structure can significantly affect the performance of our code.
+
+There is another major factor that can affect the efficiency of our code: The proper selection of which algorithm to use.
+
+An `algorithm` is simply a particular process for solving a problem. an algorithm refers to a process for going about a particular operation. 
