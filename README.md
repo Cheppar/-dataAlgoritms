@@ -67,6 +67,15 @@ A set is a data structure that does not allow duplicate values to be contained w
 
 The only difference between this set and a classic array is that the set never allows duplicate values to be inserted into it.
 
+`Reading` from a set is exactly the same as reading from an array - it takes
+just one step for the computer to look up what is contained within a particular
+index. 
+
+`Searching` a set also turns out to be no different than searching an array - it
+takes up to N steps to search to see if a value exists within in a set.
+
+`Insertion` is where arrays and sets diverge.
+
 - sets and their attributes
 - binary search
 
