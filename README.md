@@ -17,7 +17,7 @@ read notes in order
   
   Array and Sets are the 2 main types of data structures
 
-#### Array
+### Array
 - a list of data elements
 `array = ["apples", "bananas", "cucumbers", "dates", "elderberries"]`
 - Index in an array is the number which identifies where a piece of data lives inside the array. 
@@ -35,12 +35,22 @@ So it turns out that for an array of 5 cells, the maximum number of steps
 that linear search would take is 5. For an array of 500 cells, the maximum
 number of steps that linear search would take is 500. 
 
-
-
   
 **###### 3. Insert** - Add another value in our data structure, adding value to an additional slot within an array.
 
-**###### 4. Delete** - removing a value from an array.
+The efficiency of inserting a new piece of data inside an array depends on
+where inside the array you’d like to insert it.
+
+Inserting a new piece of data at the beginning or the middle of an array,
+however, is a different story. In these cases, we need to shift many pieces of
+data to make room for what we’re inserting, leading to additional steps.
+
+**###### 4. Delete** - removing a value from an array. Deletion from an array is the process of eliminating the value at a particular index.
+
+Like insertion, the worst case scenario of deleting an element is deleting the
+very first element of the array. This is because index 0 would be empty, which
+is not allowed for arrays, and we’d have to shift all the remaining elements
+to the left to fill the gap.
 
 “fast” -  how many steps and operation takes. If Operation A takes 5 steps, and Operation B takes 500 steps, we can assume that Operation A will always be faster than Operation B on all pieces of hardware.
 
@@ -48,8 +58,15 @@ number of steps that linear search would take is 500.
 
 
 
-- Determine efficiency of an algorithm
+- Determine efficiency of an algorithm : Efficiency is determined by the number of steps during a process.
 - Arrays and their attributes
+  - Read, Search, Insert, Delete 
+
+### Sets
+A set is a data structure that does not allow duplicate values to be contained within it. There are different type of sets, but focus is on array-based set.
+
+The only difference between this set and a classic array is that the set never allows duplicate values to be inserted into it.
+
 - sets and their attributes
 - binary search
 
