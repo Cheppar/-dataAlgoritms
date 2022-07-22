@@ -94,3 +94,25 @@ Choosing the right data structure can significantly affect the performance of ou
 There is another major factor that can affect the efficiency of our code: The proper selection of which algorithm to use.
 
 An `algorithm` is simply a particular process for solving a problem. an algorithm refers to a process for going about a particular operation. 
+
+There are multiple algorithms that can achieve a particular operations.
+
+a new data structure, the `ordered array`. We’ll see how there is more than one algorithm for searching an ordered
+array, and we’ll learn how to choose the right one.
+
+#### Ordered Arrays
+
+The only difference is that ordered arrays require that the values are always kept in order. 
+That is, every time a value is added it gets placed in the proper cell so that the values of the array remain sorted. 
+
+In a standard array, on the other hand, values can be added to the end of the array without taking the order of the values into consideration.
+
+`Insertion in an ordered Array`
+
+While insertion is less efficient by an ordered array than in a regular array, the ordered array has a secret superpower when it comes to the search operation. 
+
+It takes 6 steps to add an a value to an ordered array with 5 values. This makes it in-effective.
+
+`Searching in an ordered Array`
+
+
