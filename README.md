@@ -116,3 +116,5 @@ It takes 6 steps to add an a value to an ordered array with 5 values. This makes
 `Searching in an ordered Array`
 
 
+
+
