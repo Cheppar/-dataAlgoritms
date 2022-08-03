@@ -116,5 +116,76 @@ It takes 6 steps to add an a value to an ordered array with 5 values. This makes
 `Searching in an ordered Array`
 
 
+An array of ` [3, 17, 80, 202]` and add number 75.
+
+Explanation: In ascending order
+
+Step #1: We check the value at index 0, to determine whether the value we
+want to insert - the 75 - should go to its left or to its right:
+
+Step #2: We inspect the value at the next cell:75 is greater than 17, so we need to move on.
+
+Step #3: We check the value at the next cell: We’ve encountered the value 80, which is greater than the 75 that we wish to insert. Since we’ve reached the first value which is greater than 75, we can conclude that the 75 must be placed immediately to the left of this 80 to maintain the order of this ordered array. To do that, we need to shift data to make room for the 75.
+
+Step #4: Move the final value to the right:
+
+Step #5: Move the next to last value to the right:
+
+Step #6: We can finally insert the 75 into its correct spot: ` [3, 17, 75, 80, 202]`
+
+
+####Key points 
+
+- It emerges that when inserting into an ordered array, we need to always
+  conduct a search before the actual insertion to determine the correct spot for
+  the insertion. That is one key difference (in terms of efficiency) between a
+  standard array and an ordered array.
+  
+- While insertion is less efficient by an ordered array than in a regular array,
+  the ordered array has a secret superpower when it comes to the search operation. The secret power is searching an ordered array.
+  
+## Searching and ordered array.
+
+A regular array is charactised by the linear search: we check each cell one at a time - from left to right - until we find the value we're looking for.
+
+#### Difference between a searching a regular array vs ordered array.
+
+Array use case :  `[17, 3, 75, 202, 80]`
+
+Explanation :
+
+If we were to search for the value 22 - which happens to be nonexistent in our example - we need to search each and every element because the 22 can potentially be anywhere
+in the array. The only time we can stop our search before we reach the array’s end is if we happen to find the value we’re looking for before we reach the end.
+
+
+Explanation 2 : `[3, 17, 75, 80, 202]`
+
+With an ordered array, however, we can stop a search early even if the value
+isn’t contained within the array. We can stop the search as soon as we reach
+the 75, since it’s impossible that the 22 is anywhere to the right of it.
+
+Implementation of linear search in an ordered array:
+
+array = [3, 17, 75, 80, 202];
+
+function linearSearch(array, value) {
+
+// We iterate through every element in the array:
+
+    for (let element of array){
+    
+// If we find the value we're looking for, we return it:
+
+        if (element == value){
+            return value 
+        } else if (element > value){
+            break
+        }
+    };
+// We return nil if we do not find the value within the array:
+      return null
+}`
+
+
 
 
