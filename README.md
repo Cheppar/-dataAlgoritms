@@ -186,6 +186,6 @@ function linearSearch(array, value) {
       return null
 }`
 
-Please view youtube videos for clarity.
+Please view youtube videos for clarity.  youtube.com/watch?v=tQxXcCID7lI
 
 
