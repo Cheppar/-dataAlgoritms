@@ -4,5 +4,6 @@ Loops is an instruction that repeats until a specific condition is attained or r
 
 The most common loops are 
 - for lop
--  while loops 
+- while loops 
 - Do while loops 
+
