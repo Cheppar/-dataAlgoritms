@@ -39,4 +39,8 @@ function summation(n){
 
 // SPACE COMPLEXITY
 
-// 0(1)
+// 0(1) -   constant 
+
+// -- 0(n) - linear space complexity
+
+// 0(logn) - Logarithmic space complexity
