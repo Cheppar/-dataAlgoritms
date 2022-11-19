@@ -1,4 +1,4 @@
-let i = 10;
+let i = 1000;
 
 while(i <= 10){
   	console.log(`'Number'` + i);
