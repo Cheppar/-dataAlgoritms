@@ -12,7 +12,7 @@ We will cover
 2. Factorial of a number with recursion
 
 // STEPS: 
-1. Problem statement
-2. Pause the video and give it a try
+1. Problem statement.
+2. Pause the video and give it a try.
 3. Implement the solution together.
 4. Determione the big O time complexity of the solution.
