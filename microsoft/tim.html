@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	
+<style>
+	body {background-color: powderblue;}
+	h1   {color: #442200;}
+	.results
+	{ 
+		border: 1px;
+		border-style: solid;
+		width: 100%;
+	}
+	.pulse-animation
+	{
+		animation: pulse 0.7s;
+		animation-iteration-count: 2;
+	}
+	@keyframes pulse {
+		from { 
+			background-color: white;
+			border-color: transparent; }
+		50% { 
+			background-color: rgb(139, 201, 139);
+			border-color: red; }
+		to { 
+			background-color: white;
+			border-color: transparent; }
+	}
+
+</style>
+
+<script>
+//standard handler to display the results in a box
+
+//hack to make auto resizing texarea
+//https://stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize
+const tx = document.getElementsByTagName("textarea");
+for (let i = 0; i < tx.length; i++) {
+  tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
+  tx[i].addEventListener("input", OnInput, false);
+}
+
+//main request function
+function do_xhr_results_into_el(method, url, body, el)
+{
+    const headers={
+        'Content-Type': 'application/json'
+      };
+	  document.getElementById(el).replaceChildren("");
+	  console.log(body);
+	axios({
+		method: method,
+		url:'http://backend.cloud4c2.com' + url,
+		headers:headers,
+		json:true,
+		data:body,
+		withCredentials: true 
+	  })
+	  .then((response) =>
+	  {
+		let node = document.getElementById(el);
+		node.style.background = "LightGreen"
+		node.textContent = JSON.stringify(response.data, null, 4)
+		node.style.height=0;
+		node.style.height = (node.scrollHeight) + "px";
+	  }) 
+	  .catch((error)=>
+	  {
+		let node = document.getElementById(el);
+		if(error.response.status == "403")	
+		{		
+			node.style.background = "orange"
+			node.textContent = JSON.stringify(error.response.data, null, 4)
+			node.style.height=0;
+			node.style.height = (node.scrollHeight) + "px";
+		} else {
+			node.style.background = "crimson";
+			node.textContent = JSON.stringify(error.stack, null, 4).replaceAll("\\n", "\n")+ JSON.stringify(error.response.data, null, 4).replaceAll("\\n", "\n");
+			node.style.height=0;
+			node.style.height = (node.scrollHeight) + "px";
+			
+		}
+		
+	});
+}
+
+//applies a css animation style to make an element blink
+function blink_el(el)
+{//https://css-tricks.com/restart-css-animation/
+	element = document.getElementById(el);
+	element.classList.remove("pulse-animation");
+	void element.offsetWidth;
+	element.classList.add("pulse-animation");
+}
+
+//gets the value of an element while also making it blink
+function get_input(el)
+{
+	blink_el(el);
+	return document.getElementById(el).value;
+}
+
+//functions hooked up to the buttons:
+//login
+function login()
+{
+	do_xhr_results_into_el('post', '/api/users/login', 
+	{
+		username:get_input("username"),
+		password:get_input("password")
+	}, 'usersDiv' )
+}
+
+//// users
+function users_root()
+{
+	do_xhr_results_into_el('post', '/api/users', {user_id:get_input("uid")},'usersDiv' )
+}
+function users_list()
+{
+	do_xhr_results_into_el('post', '/api/users/list', {}, 'usersDiv' )
+}
+function users_list_names()
+{
+	do_xhr_results_into_el('post', '/api/users/list_names', {}, 'usersDiv' )
+}
+function users_edit()
+{
+	do_xhr_results_into_el('post', '/api/users/edit', 
+	{
+		user_id: get_input("uid"),
+		username: get_input("uname"), 
+		first_name: get_input("ufirstname"), 
+		role:get_input("urole")
+	}, 'usersDiv' )
+}
+function users_signup()
+{
+	do_xhr_results_into_el('post', '/api/users/signup', 
+	{
+		user_id: get_input("uid"),
+		username: get_input("uname"), 
+		first_name: get_input("ufirstname"), 
+		last_name: "fakelastname", 
+		password: get_input("upass"), 
+		email: get_input("uemail"), 
+		role: get_input("urole")
+	}, 'usersDiv' )
+}
+function users_change_password()
+{
+	do_xhr_results_into_el('post', '/api/users/change_password', 
+	{
+		user_id: get_input("uid"),
+		password: get_input("upass")
+	}, 'usersDiv' )
+}
+function users_delete()
+{
+	do_xhr_results_into_el('post', '/api/users/delete', { user_id: get_input("uid") },  'usersDiv' )
+}
+function users_change_status()
+{
+	do_xhr_results_into_el('post', '/api/users/change_status', 
+    { 
+        user_id: get_input("uid"),
+        status: get_input("ustatus"),
+    },  'usersDiv' )
+}
+
+//// teams
+
+function teams_root()
+{
+	do_xhr_results_into_el('post', '/api/teams', { team_id:get_input("tid") }, 'teamsDiv' )
+}
+function teams_list()
+{
+	do_xhr_results_into_el('post', '/api/teams/list', {}, 'teamsDiv' )
+}
+
+function teams_edit()
+{
+	do_xhr_results_into_el('post', '/api/teams/edit', 
+	{
+		team_id: get_input("tid"),
+		team_name: get_input("tname"), 
+		team_description: get_input("tdesc"), 
+	}, 'teamsDiv' )
+}
+function teams_create()
+{
+	do_xhr_results_into_el('post', '/api/teams/create', {
+		team_name: get_input("tname"), 
+		team_description: get_input("tdesc"), 
+	}, 'teamsDiv' )
+}
+function teams_add_users()
+{
+	do_xhr_results_into_el('post', '/api/teams/add_users', {
+		team_id: get_input("tid"),
+		user_ids: [get_input("tuid")], //NOTE: can only add a single user at a time with this UI but the backend is not limited to one
+	}, 'teamsDiv' )
+}
+function teams_delete()
+{
+	do_xhr_results_into_el('post', '/api/teams/delete', { team_id:get_input("tid") }, 'teamsDiv' )
+}
+
+
+//// projects
+function proj_root()
+{
+	do_xhr_results_into_el('post', '/api/projects/',{}, 'projDiv' )
+}
+
+function proj_list()
+{
+	do_xhr_results_into_el('post', '/api/projects/list',{}, 'projDiv' )
+}
+
+function proj_edit()
+{
+	do_xhr_results_into_el('post', '/api/projects/edit', {
+		project_id: get_input("pid"),
+		project_name: get_input("pname"), 
+		project_description: get_input("pdesc"), 
+	}, 'projDiv' )
+}
+function proj_create()
+{
+	do_xhr_results_into_el('post', '/api/projects/create',{
+		project_id: get_input("pid"),
+		project_name: get_input("pname"), 
+		project_description: get_input("pdesc"), 
+	}, 'projDiv' )
+}
+function proj_delete()
+{
+	do_xhr_results_into_el('post', '/api/projects/delete', { project_id:get_input("pid") }, 'projDiv' )
+}
+
+//// nodes
+function node_root()
+{
+	do_xhr_results_into_el('post', '/api/nodes/',{}, 'nodeDiv' )
+}
+function node_sesions_create()
+{
+    //would need to pass a project here but right now it just makes a dummy web server
+	do_xhr_results_into_el('post', '/api/nodes/sessions/create',{}, 'nodeDiv' )
+}
+function node_sesions_list()
+{
+	do_xhr_results_into_el('post', '/api/nodes/sessions/list',{}, 'nodeDiv' )
+}
+function node_sesions_add_teams()
+{
+	do_xhr_results_into_el('post', '/api/nodes/sessions/add_teams',
+    {
+        team_ids:[get_input("tid")], 
+        session_id:get_input("sid")
+    }, 'nodeDiv' )
+}
+</script>
+
+
+<head>
+
+<body>
+<div>
+<h1> Frontend Test </h1>
+
+<button onClick="do_xhr_results_into_el('get', '/', '{}', 'test1Div' )">Test communication </button>
+<button onClick="do_xhr_results_into_el('get', '/api/session', '{}', 'test1Div' )">Test session </button>
+<div>
+<textarea class="results" id="test1Div"> </textarea>
+</div>
+
+
+<br/>/api/users/login
+<input type="text" id="username" placeholder="username" style="width: 300px;">
+<input type="password" id="password" placeholder="password" style="width: 100px;">
+<button onClick="login()"> Log In</button>
+<button onClick="do_xhr_results_into_el('post', '/api/users/logout', '{}', 'usersDiv' )"> Log Out</button>
+<button onClick="do_xhr_results_into_el('post', '/api/users/extend', '{}', 'usersDiv' )"> Extend session to +60min</button>
+
+<br/>/api/users 
+<button onClick="users_root()"> / </button>
+<button onClick="users_list()"> /list </button> 
+<button onClick="users_edit()"> /edit </button>
+<button onClick="users_delete()"> /delete </button> 
+<button onClick="users_signup()"> /signup </button> 
+<button onClick="users_change_status()"> /change_status </button> 
+<button onClick="users_change_password()"> /change_password </button> <br/>
+<input type="text" id="uid" placeholder="user id number" style="width: 300px;">
+<input type="text" id="uname" placeholder="username" style="width: 100px;">
+<input type="text" id="ufirstname" placeholder="first name" style="width: 100px;">
+<input type="text" id="uemail" placeholder="email" style="width: 200px;">
+<select id="urole" name="role">
+    <option value="administrator">administrator</option>
+    <option value="manager">manager</option>
+    <option value="analyst">analyst</option>
+    <option value="viewer">viewer</option>
+</select>
+<input type="text" id="upass" placeholder="password" style="width: 100px;">
+<select id="ustatus" name="status">
+    <option value="active">active</option>
+    <option value="suspended">suspended</option>
+</select>
+<div>
+	<textarea class="results" id="usersDiv"> </textarea>
+</div>
+
+<br/>/api/teams 
+<button onClick="teams_root()"> / </button>
+<button onClick="teams_list()"> /list </button> 
+<button onClick="teams_create()"> /create </button> 
+<button onClick="teams_edit()"> /edit </button>
+<button onClick="teams_add_users()"> /add_users </button>
+<button onClick="teams_delete()"> /delete </button> <br/>
+<input type="text" id="tid" placeholder="team id number" style="width: 300px;">
+<input type="text" id="tname" placeholder="name" style="width: 100px;">
+<input type="text" id="tdesc" placeholder="description" style="width: 200px;">
+<input type="text" id="tuid" placeholder="user id to add" style="width: 300px;">
+<div>
+	<textarea class="results" id="teamsDiv"> </textarea>
+</div>
+
+<br/>/api/projects 
+<button onClick="proj_root()"> / </button> 
+<button onClick="proj_list()"> /list </button> 
+<button onClick="proj_create()"> /create </button> 
+<button onClick="proj_edit()"> /edit </button>
+<button onClick="proj_delete()"> /delete </button> <br/>
+<input type="text" id="pid" placeholder="proj id number" style="width: 300px;">
+<input type="text" id="pname" placeholder="proj name" style="width: 100px;">
+<input type="text" id="pdesc" placeholder="description" style="width: 200px;">
+<div>
+	<textarea class="results" id="projDiv"> </textarea>
+</div>
+
+<br/>/api/nodes 
+<button onClick="node_root()"> / </button> 
+<button onClick="node_sesions_create()"> /sesions/create </button> 
+<button onClick="node_sesions_list()"> /sesions/list </button> 
+<!--button onClick="node_sesions_add_teams()"> /sesions/add_teams </button--> <br/>
+<input type="text" id="sid" placeholder="session id number" style="width: 300px;">
+<div>
+	<textarea class="results" id="nodeDiv"> </textarea>
+</div>
+
+<a href="http://map.cloud4c2.com/?session=PUT-A-SESSION-ID-HERE">  link to map page (without a proper session parameter. must be logged in)
+	 </a>
+</div>
+</body>
+</html>
